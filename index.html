@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>📊 Market Pulse — 시장 온도계</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,'Pretendard','Segoe UI',sans-serif;background:#080c14;color:#dce4f0;min-height:100vh;display:flex;flex-direction:column}.topbar{background:#060910;border-bottom:1px solid #1e2d47;padding:11px 15px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}.topbar-title{font-size:15px;font-weight:900;color:#f5c542}.topbar-sub{font-size:10px;color:#6b7fa3;margin-top:2px}.content{flex:1;padding:14px 13px 80px;max-width:650px;margin:0 auto;width:100%;display:none}.content.active{display:block}.tabbar{background:#060910;border-top:1px solid #1e2d47;display:flex;justify-content:space-around;padding:7px 0 10px;position:fixed;bottom:0;left:0;right:0;z-index:99}.tab-btn{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:9px;color:#6b7fa3;background:none;border:none;cursor:pointer;padding:4px 8px;min-width:64px}.tab-btn.active{color:#f5c542}.tab-btn span{font-size:20px}.card{background:#131c2e;border:1px solid #1e2d47;border-radius:12px;padding:13px;margin-bottom:10px}.alert-box{background:linear-gradient(135deg,rgba(255,59,92,.18),rgba(255,120,67,.06));border:1px solid rgba(255,59,92,.45);border-radius:12px;padding:14px;margin-bottom:12px}.help-box{background:rgba(245,197,66,.06);border:1px solid rgba(245,197,66,.2);border-radius:12px;padding:12px;margin-bottom:10px}.disc-box{background:rgba(47,128,237,.08);border:1px solid rgba(47,128,237,.25);border-radius:10px;padding:9px 12px;margin-bottom:12px;font-size:10px;color:#9ab4d8;line-height:1.6}.sec{font-size:13px;font-weight:700;margin-bottom:9px;margin-top:14px}.badge{display:inline-flex;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:700}.badge-red{color:#ff3b5c;background:rgba(255,59,92,.12);border:1px solid rgba(255,59,92,.3)}.badge-orange{color:#ff9f43;background:rgba(255,159,67,.12);border:1px solid rgba(255,159,67,.3)}.badge-green{color:#1edd8a;background:rgba(30,221,138,.12);border:1px solid rgba(30,221,138,.3)}.badge-gold{color:#f5c542;background:rgba(245,197,66,.1);border:1px solid rgba(245,197,66,.25)}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.flow-row{display:grid;grid-template-columns:34px 1fr 88px;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)}.flow-bar-wrap{height:14px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden}.flow-bar{height:100%;border-radius:4px;display:flex;align-items:center;padding:0 4px;font-size:9px;font-weight:700;color:rgba(255,255,255,.85);transition:width .3s}.gauge-wrap{height:32px;border-radius:16px;background:linear-gradient(90deg,#1edd8a 0%,#f5c542 38%,#ff9f43 68%,#ff3b5c 100%);position:relative;margin:12px 0 5px}.gauge-needle{position:absolute;top:-5px;width:4px;height:42px;background:#fff;border-radius:2px;box-shadow:0 0 12px rgba(255,255,255,.9);transform:translateX(-2px)}.prog-bar-wrap{height:10px;background:rgba(255,255,255,.07);border-radius:5px;overflow:hidden;margin-bottom:4px}.prog-bar{height:100%;border-radius:5px;background:linear-gradient(90deg,#1edd8a,#f5c542 70%,#ff3b5c)}table{width:100%;border-collapse:collapse;font-size:11px}th{padding:7px 5px;text-align:right;color:#6b7fa3;font-size:10px;border-bottom:1px solid #1e2d47;background:#0f1524;white-space:nowrap}th:first-child{text-align:left}td{padding:8px 5px;text-align:right;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;white-space:nowrap}td:first-child{text-align:left}.stock-toggle{display:flex;gap:8px;margin-bottom:14px}.stock-btn{flex:1;padding:10px 8px;border-radius:10px;cursor:pointer;text-align:left;border-width:1px;border-style:solid;background:#131c2e}.chart-box{height:150px;position:relative}.case-card{background:#131c2e;border:1px solid #1e2d47;border-radius:10px;padding:11px 13px;margin-bottom:8px}.thr-btn{padding:6px 10px;border-radius:8px;cursor:pointer;font-size:11px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;border-width:1px;border-style:solid}.reason-item{background:#0f1524;border-radius:8px;padding:9px 12px;border-left-width:3px;border-left-style:solid;margin-bottom:6px}.small{font-size:10px;color:#6b7fa3;line-height:1.5}.loading{padding:20px;text-align:center;color:#6b7fa3}.error-pre{white-space:pre-wrap;background:#0f1524;border:1px solid #1e2d47;border-radius:10px;padding:10px;font-size:10px;color:#9ab4d8;line-height:1.5;max-height:140px;overflow:auto}@media(max-width:420px){.grid3{grid-template-columns:1fr}.chart-box{height:135px}}
+</style>
+</head>
+<body>
+<div class="topbar"><div><div class="topbar-title">📊 Market Pulse</div><div class="topbar-sub" id="top-sub">데이터 로딩 중</div></div><span class="badge badge-gold mono" id="status-badge">LIVE</span></div>
+
+<div class="content active" id="page-main">
+  <div id="main-root" class="loading">데이터 불러오는 중...</div>
+</div>
+
+<div class="content" id="page-foreign">
+  <div class="stock-toggle" id="foreign-toggle"></div>
+  <div id="foreign-content" class="loading">데이터 불러오는 중...</div>
+</div>
+
+<div class="content" id="page-credit">
+  <div id="credit-root" class="loading">데이터 불러오는 중...</div>
+</div>
+
+<div class="content" id="page-backtest">
+  <div id="backtest-root" class="loading">데이터 불러오는 중...</div>
+</div>
+
+<div class="tabbar">
+  <button class="tab-btn active" onclick="showPage('main',this)"><span>🌡️</span>대시보드</button>
+  <button class="tab-btn" onclick="showPage('foreign',this)"><span>🌏</span>지분율</button>
+  <button class="tab-btn" onclick="showPage('credit',this)"><span>💳</span>신용잔고</button>
+  <button class="tab-btn" onclick="showPage('backtest',this)"><span>🧪</span>백테스트</button>
+</div>
+
+<script>
+const C={bg:'#080c14',surface:'#0f1524',card:'#131c2e',border:'#1e2d47',gold:'#f5c542',red:'#ff3b5c',blue:'#2f80ed',green:'#1edd8a',orange:'#ff9f43',text:'#dce4f0',sub:'#6b7fa3'};
+let DATA=null, foreignSel=null, foreignChart=null, creditChart=null, curThr=80;
+
+const SAMPLE_DATA={
+  status:'sample', generatedAt:'아직 자동수집 전', tradeDate:'-', source:'sample',
+  notice:'GitHub Actions를 수동 실행하거나 평일 19:00 자동 실행 후 실제 데이터로 바뀝니다.',
+  alert:{level:1,label:'샘플',message:'아직 latest.json 실데이터가 생성되지 않았습니다.'},
+  market:[
+    {name:'KOSPI',code:'코스피 전체',price:'-',change:'-',flow:{foreign:0,institution:0,individual:0},maxAbs:1},
+    {name:'삼성전자',code:'005930',price:'-',change:'-',flow:{foreign:0,institution:0,individual:0},maxAbs:1,foreignRatio:null,foreignPctOfHigh:null},
+    {name:'SK하이닉스',code:'000660',price:'-',change:'-',flow:{foreign:0,institution:0,individual:0},maxAbs:1,foreignRatio:null,foreignPctOfHigh:null}
+  ],
+  divergence:{score:0,level:1,details:{sellDays:0,individualTotalEok:0,creditGrowthPct:null,avgRatioDropPctp:null},availableWeights:{}},
+  weekly:[], foreign:{}, credit:{available:false,message:'아직 수집 전입니다.',history:[]}, backtest:{available:false,thresholds:[],cases:[],note:'아직 수집 전입니다.'}, errors:[]
+};
+
+function showPage(id,btn){document.querySelectorAll('.content').forEach(el=>el.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(el=>el.classList.remove('active'));document.getElementById('page-'+id).classList.add('active');btn.classList.add('active');}
+const fmt=n=>{n=Number(n||0);return (n>0?'+':'')+n.toLocaleString(undefined,{maximumFractionDigits:1})};
+const levelColor=l=>l>=4?C.red:l>=3?C.orange:l>=2?C.gold:C.green;
+const levelBadge=l=>l>=4?'badge-red':l>=3?'badge-orange':l>=2?'badge-gold':'badge-green';
+const safe=(v,d='-')=>(v===null||v===undefined||Number.isNaN(v)?d:v);
+
+async function loadData(){
+  try{
+    const res=await fetch('data/latest.json?v='+Date.now(),{cache:'no-store'});
+    if(!res.ok) throw new Error('latest.json not found');
+    DATA=await res.json();
+  }catch(e){
+    DATA={...SAMPLE_DATA, errors:[String(e)]};
+  }
+  renderAll();
+}
+
+function renderAll(){
+  document.getElementById('top-sub').textContent=`${DATA.tradeDate} 장마감 데이터 · ${DATA.generatedAt}`;
+  const badge=document.getElementById('status-badge');
+  badge.textContent=DATA.status==='ok'?'OK':DATA.status==='partial'?'PARTIAL':'SAMPLE';
+  badge.className='badge mono '+(DATA.status==='ok'?'badge-green':DATA.status==='partial'?'badge-orange':'badge-gold');
+  renderDashboard(DATA);renderForeign(DATA);renderCredit(DATA);renderBacktest(DATA,80);
+}
+
+function renderDashboard(d){
+  const div=d.divergence||{score:0,level:1,details:{}};
+  const lvl=Number(div.level||1), color=levelColor(lvl);
+  const details=div.details||{};
+  const cards=(d.market||[]).map(stockCard).join('');
+  const weekly=(d.weekly||[]).map(r=>`<tr style="background:${r.danger?'rgba(255,59,92,.06)':'transparent'}"><td style="color:${r.danger?C.red:C.text};font-weight:${r.today?700:400}">${r.date}${r.danger?' ⚠️':''}</td><td style="color:${Number(r.foreign)<0?C.red:C.green}">${fmt(r.foreign)}</td><td style="color:${Number(r.individual)>=0?C.green:C.red}">${fmt(r.individual)}</td><td style="font-weight:700;color:${levelColor(r.score>=85?4:r.score>=70?3:r.score>=50?2:1)}">${safe(r.score)}</td></tr>`).join('') || `<tr><td colspan="4" style="text-align:center;color:${C.sub}">수집된 최근 수급 데이터 없음</td></tr>`;
+  const errors=(d.errors||[]).length?`<div class="sec">⚠️ 수집 로그</div><div class="error-pre">${d.errors.map(escapeHtml).join('\n')}</div>`:'';
+  document.getElementById('main-root').innerHTML=`
+    <div class="disc-box">⚠️ <b style="color:#c2d6f0">투명 고지</b> — ${escapeHtml(d.notice||'투자 권유가 아닌 참고용 지표입니다.')}<br>데이터 소스: ${escapeHtml(d.source||'-')}</div>
+    <div class="alert-box">
+      <div class="${levelBadge(lvl)} badge" style="margin-bottom:8px">LEVEL ${lvl} ${escapeHtml(d.alert?.label||'')}</div>
+      <div style="font-size:14px;font-weight:700;color:${color};margin-bottom:6px;line-height:1.4">${escapeHtml(d.alert?.message||'')}</div>
+      <div class="grid2">
+        ${metricBox('외인 연속 순매도',`${safe(details.sellDays,0)}일`,C.red,'최근 거래일 기준')}
+        ${metricBox('개인 누적 순매수',`${fmt(details.individualTotalEok)}억`,C.green,'최근 30거래일 기준')}
+        ${metricBox('신용잔고 증가율',details.creditGrowthPct==null?'미수집':`${fmt(details.creditGrowthPct)}%`,C.orange,'수집 가능 시 반영')}
+        ${metricBox('지분율 평균 하락폭',details.avgRatioDropPctp==null?'미수집':`${safe(details.avgRatioDropPctp)}%p`,C.gold,'삼전·하닉 평균')}
+      </div>
+    </div>
+    <div id="stock-cards">${cards}</div>
+    <div class="card">
+      <div style="font-size:13px;font-weight:700;margin-bottom:3px">⚖️ 수급 다이버전스 강도</div>
+      <div class="small">사용 가능한 지표만 가중치를 재배분합니다. 신용잔고/지분율 수집 실패 시 점수 신뢰도는 낮아집니다.</div>
+      <div class="gauge-wrap"><div class="gauge-needle" style="left:${Math.max(0,Math.min(100,div.score||0))}%"></div></div>
+      <div style="display:flex;justify-content:space-between;font-size:9px;color:${C.sub}"><span>0 안전</span><span>40</span><span>70 주의</span><span>85 위험</span><span>100</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:8px"><div><span class="mono" style="font-size:36px;font-weight:700;color:${color}">${safe(div.score,0)}</span><span style="font-size:14px;color:${C.sub}">/100</span></div><div class="small" style="text-align:right">가중치<br>${weightsText(div.availableWeights)}</div></div>
+    </div>
+    <div class="sec">📅 최근 7거래일 수급 (단위: 억원)</div>
+    <div style="overflow-x:auto;border-radius:10px;border:1px solid #1e2d47;margin-bottom:10px"><table><thead><tr><th>일자</th><th>외인</th><th>개인</th><th>점수</th></tr></thead><tbody>${weekly}</tbody></table></div>
+    <div class="help-box"><div style="color:${C.gold};font-size:12px;font-weight:700;margin-bottom:6px">💡 이 화면이 뭘 보여주나요?</div><div class="small" style="color:#c0c8d8">외국인이 팔고 개인이 받아내는 흐름이 강해질수록 다이버전스 점수가 올라갑니다. 장마감 후 자동 갱신되는 참고용 시장 온도계입니다.</div></div>
+    ${errors}
+  `;
+}
+
+function stockCard(st){
+  const f=st.flow||{}, max=Math.max(1,Number(st.maxAbs||1));
+  return `<div class="card"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px"><div><div style="font-size:13px;font-weight:700">${escapeHtml(st.name)}</div><div class="mono" style="font-size:10px;color:${C.sub};margin-top:2px">${escapeHtml(st.code)}</div></div><div><div class="mono" style="font-size:20px;font-weight:700;color:${C.text};text-align:right">${escapeHtml(st.price||'-')}</div><div style="font-size:11px;color:${String(st.change||'').includes('-')?C.red:C.green};margin-top:2px;text-align:right">${escapeHtml(st.change||'-')}</div></div></div>${flowRow('외인',f.foreign,max)}${flowRow('기관',f.institution,max)}${flowRow('개인',f.individual,max)}${st.foreignRatio!=null?`<div style="margin-top:8px;padding-top:7px;border-top:1px solid rgba(255,255,255,.05);font-size:10px;color:${C.sub};display:flex;justify-content:space-between"><span>외인지분율</span><span class="mono" style="color:${C.gold};font-weight:700">${st.foreignRatio}% <span style="color:${C.sub};font-weight:400;font-size:10px">고점比 ${safe(st.foreignPctOfHigh)}%</span></span></div>`:''}</div>`;
+}
+function flowRow(label,net,maxAbs){net=Number(net||0);const buy=net>=0,pct=Math.min(100,Math.round(Math.abs(net)/maxAbs*100));return`<div class="flow-row"><span style="font-size:10px;color:${C.sub}">${label}</span><div class="flow-bar-wrap"><div class="flow-bar" style="width:${pct}%;background:${buy?C.red:C.blue}">${pct>34?(buy?'매수':'매도'):''}</div></div><span class="mono" style="font-size:11px;font-weight:700;text-align:right;color:${buy?C.green:C.red}">${fmt(net)}억</span></div>`}
+function metricBox(title,val,color,sub){return`<div style="background:rgba(0,0,0,.35);padding:8px 10px;border-radius:8px"><div class="mono" style="font-size:15px;font-weight:700;color:${color}">${escapeHtml(String(val))}</div><div style="font-size:10px;color:#a09098;margin-top:3px">${title}</div><div style="font-size:9px;color:#887080;margin-top:3px">${sub}</div></div>`}
+function weightsText(w){if(!w||Object.keys(w).length===0)return'없음';const map={foreign_sell_days:'외인',indiv_net_buy:'개인',credit_growth:'신용',ratio_drop:'지분율'};return Object.entries(w).map(([k,v])=>`${map[k]||k} ${Math.round(v*100)}%`).join(' · ')}
+
+function renderForeign(d){
+  const entries=Object.entries(d.foreign||{});
+  if(!entries.length){document.getElementById('foreign-toggle').innerHTML='';document.getElementById('foreign-content').innerHTML=`<div class="card small">외인지분율 데이터 없음</div>`;return;}
+  if(!foreignSel || !d.foreign[foreignSel]) foreignSel=entries[0][0];
+  document.getElementById('foreign-toggle').innerHTML=entries.map(([k,v])=>`<button class="stock-btn" onclick="foreignSel='${k}';renderForeign(DATA)" style="border-color:${foreignSel===k?C.gold:C.border};color:${foreignSel===k?C.gold:C.sub};font-weight:700;font-size:12px">${escapeHtml(v.name)}</button>`).join('');
+  const st=d.foreign[foreignSel];
+  if(!st.available){document.getElementById('foreign-content').innerHTML=`<div class="card"><div style="font-weight:700;margin-bottom:6px">${escapeHtml(st.name)} 외인지분율</div><div class="small">수집 불가 또는 데이터 없음</div></div>`;return;}
+  const pct=Number(st.pctOfHigh||0), dc=pct>=97?C.red:pct>=92?C.orange:C.gold;
+  document.getElementById('foreign-content').innerHTML=`
+    <div class="card"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px"><div><div style="font-size:11px;color:${C.sub};margin-bottom:4px">${escapeHtml(st.name)} (${st.code})</div><div class="mono" style="font-size:38px;font-weight:700;color:${C.gold};letter-spacing:-1px;line-height:1">${safe(st.ratio)}<span style="font-size:18px">%</span></div><div class="small">조회기간 고점 <b style="color:${C.text}">${safe(st.high)}%</b> (${safe(st.highDate)}) 대비</div></div><div style="text-align:right"><div class="mono" style="font-size:32px;font-weight:900;color:${dc};line-height:1">${safe(st.pctOfHigh)}<span style="font-size:14px">%</span></div><div class="small">고점 대비</div></div></div><div class="prog-bar-wrap"><div class="prog-bar" style="width:${Math.min(100,pct)}%"></div></div></div>
+    <div class="card"><div class="small" style="margin-bottom:8px">최근 외인지분율 추이</div><div class="chart-box"><canvas id="foreignChart"></canvas></div></div>
+    <div class="sec">📍 주요 시점</div>${(st.history||[]).map(h=>`<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05)"><div style="width:3px;height:34px;background:${h.note?.includes('고점')?C.red:C.gold};border-radius:2px"></div><div style="flex:1"><div class="mono small">${escapeHtml(h.period)}</div><div style="font-size:12px;font-weight:700">${escapeHtml(h.note)}</div></div><div class="mono" style="font-size:16px;font-weight:700;color:${h.note?.includes('고점')?C.red:C.gold}">${safe(h.ratio)}%</div></div>`).join('')}`;
+  if(foreignChart) foreignChart.destroy();
+  const ctx=document.getElementById('foreignChart').getContext('2d');
+  foreignChart=new Chart(ctx,{type:'line',data:{labels:st.labels||[],datasets:[{label:'외인지분율',data:st.confirmed||[],borderColor:C.gold,borderWidth:2,pointRadius:2,tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:C.card,titleColor:C.sub,bodyColor:C.text,borderColor:C.border,borderWidth:1}},scales:{x:{ticks:{color:C.sub,font:{size:8}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:C.sub,font:{size:8},callback:v=>v.toFixed(1)+'%'},grid:{color:'rgba(255,255,255,.04)'}}}});
+}
+
+function renderCredit(d){
+  const cr=d.credit||{};
+  if(!cr.available){document.getElementById('credit-root').innerHTML=`<div class="disc-box">신용잔고는 가짜값을 넣지 않습니다. 수집 실패 시 아래처럼 표시합니다.</div><div class="card"><div style="font-size:14px;font-weight:700;color:${C.orange};margin-bottom:6px">💳 신용잔고 수집 불가</div><div class="small">${escapeHtml(cr.message||'데이터 없음')}</div>${cr.tried?`<div class="small" style="margin-top:8px">시도한 함수: ${escapeHtml(cr.tried.join(', ')||'-')}</div>`:''}</div>`;return;}
+  const hist=cr.history||[];
+  document.getElementById('credit-root').innerHTML=`
+    <div class="grid3">${metricBox('현재 신용잔고',`${safe(cr.current)} ${escapeHtml(cr.unit||'')}`,C.gold,escapeHtml(cr.source||''))}${metricBox('30일 증가율',cr.growth30d==null?'N/A':`${fmt(cr.growth30d)}%`,C.red,'최근 자료 기준')}${metricBox('최근 고점 대비',cr.pctOfHigh==null?'N/A':`${safe(cr.pctOfHigh)}%`,C.orange,'수집 구간 기준')}</div>
+    <div class="card"><div class="small" style="margin-bottom:8px">신용잔고 추이</div><div class="chart-box"><canvas id="creditChart"></canvas></div></div>
+    <div class="help-box"><div style="color:${C.gold};font-size:12px;font-weight:700;margin-bottom:6px">💡 신용잔고 탭</div><div class="small" style="color:#c0c8d8">신용잔고는 보통 지연 데이터입니다. 수집 단위가 원자료로 표시되면 원천 컬럼 단위 확인이 필요합니다.</div></div>`;
+  if(creditChart) creditChart.destroy();
+  const ctx=document.getElementById('creditChart').getContext('2d');
+  creditChart=new Chart(ctx,{type:'line',data:{labels:hist.map(x=>x.date),datasets:[{label:'신용잔고',data:hist.map(x=>x.balance),borderColor:C.gold,backgroundColor:'rgba(245,197,66,.08)',fill:true,borderWidth:2,pointRadius:3,tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:C.card,titleColor:C.sub,bodyColor:C.text,borderColor:C.border,borderWidth:1}},scales:{x:{ticks:{color:C.sub,font:{size:8}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:C.sub,font:{size:8}},grid:{color:'rgba(255,255,255,.04)'}}}});
+}
+
+function renderBacktest(d,thr){
+  curThr=thr; const bt=d.backtest||{};
+  if(!bt.available){document.getElementById('backtest-root').innerHTML=`<div class="card"><div style="font-weight:700;color:${C.orange};margin-bottom:6px">백테스트 데이터 부족</div><div class="small">${escapeHtml(bt.note||'수집 후 표시됩니다.')}</div></div>`;return;}
+  const td=bt.thresholds||[], sel=td.find(x=>x.t===thr)||td[0]||{t:thr,n:0,hit:0,avg:0};
+  const cases=(bt.cases||[]).filter(c=>Number(c.score)>=thr);
+  document.getElementById('backtest-root').innerHTML=`
+    <div class="disc-box">${escapeHtml(bt.note||'간이 백테스트입니다.')}</div>
+    <div class="card"><div style="font-size:12px;font-weight:700;margin-bottom:10px">🎛️ 점수 기준 바꿔보기</div><div style="display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap">${td.map(x=>`<button class="thr-btn" onclick="renderBacktest(DATA,${x.t})" style="border-color:${thr===x.t?C.gold:C.border};background:${thr===x.t?'rgba(245,197,66,.15)':C.surface};color:${thr===x.t?C.gold:C.sub};font-weight:${thr===x.t?700:400}">${x.t}점</button>`).join('')}</div><div class="grid3">${metricBox('신호 발생',`${sel.n}회`,C.gold,'표본')}${metricBox('10일 내 하락',`${sel.hit}%`,C.green,'확률')}${metricBox('평균 10일 수익률',`${fmt(sel.avg)}%`,C.red,'평균')}</div></div>
+    <div class="sec">📖 ${thr}점↑ 과거 사례</div>${cases.length?cases.map(c=>`<div class="case-card"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px"><div><div class="mono small">${escapeHtml(c.date)}</div><div style="font-size:13px;font-weight:700;margin-top:2px">${escapeHtml(c.note||'신호')}</div></div><span class="mono" style="font-size:12px;font-weight:700;padding:3px 10px;border-radius:8px;background:rgba(255,59,92,.15);color:${C.red}">점수 ${safe(c.score)}</span></div><div class="grid2">${caseRet(c.r5,'5일 후')}${caseRet(c.r10,'10일 후')}</div></div>`).join(''):`<div class="card small">해당 기준에서는 사례 없음</div>`}`;
+}
+function caseRet(r,label){const val=r==null?'N/A':`${r>0?'+':''}${r}%`;return`<div style="background:${C.surface};border-radius:8px;padding:8px 10px;text-align:center"><div class="mono" style="font-size:20px;font-weight:700;color:${Number(r)<0?C.red:C.green}">${val}</div><div class="small">${label} 수익률</div></div>`}
+function escapeHtml(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+
+loadData();
+</script>
+</body>
+</html>
