@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 2,
+  "status": "sample",
+  "generatedAt": "아직 자동수집 전",
+  "tradeDate": "-",
+  "source": "sample",
+  "notice": "GitHub Actions를 수동 실행하거나 평일 19:00 자동 실행 후 실제 데이터로 바뀝니다. 현재 값은 샘플이 아니라 빈 상태입니다.",
+  "alert": {
+    "level": 1,
+    "label": "샘플",
+    "message": "아직 latest.json 실데이터가 생성되지 않았습니다."
+  },
+  "market": [
+    {"name":"KOSPI","code":"코스피 전체","price":"-","change":"-","flow":{"foreign":0,"institution":0,"individual":0},"maxAbs":1},
+    {"name":"삼성전자","code":"005930","price":"-","change":"-","flow":{"foreign":0,"institution":0,"individual":0},"maxAbs":1,"foreignRatio":null,"foreignPctOfHigh":null},
+    {"name":"SK하이닉스","code":"000660","price":"-","change":"-","flow":{"foreign":0,"institution":0,"individual":0},"maxAbs":1,"foreignRatio":null,"foreignPctOfHigh":null}
+  ],
+  "divergence": {
+    "score": 0,
+    "level": 1,
+    "details": {"sellDays":0,"individualTotalEok":0,"creditGrowthPct":null,"avgRatioDropPctp":null},
+    "availableWeights": {}
+  },
+  "weekly": [],
+  "foreign": {},
+  "credit": {"available": false, "message": "아직 수집 전입니다.", "history": []},
+  "backtest": {"available": false, "thresholds": [], "cases": [], "note": "아직 수집 전입니다."},
+  "errors": []
+}
