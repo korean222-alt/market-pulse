@@ -1,0 +1,51 @@
+name: Update Market Data
+
+on:
+  schedule:
+    # 한국시간 18:00, 18:10, 18:20, 18:30, 18:40, 18:50
+    - cron: "0,10,20,30,40,50 9 * * 1-5"
+    # 한국시간 19:00
+    - cron: "0 10 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: market-data-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check existing data
+        id: check
+        run: python scripts/collect.py --check-fresh
+
+      - name: Set up Python
+        if: steps.check.outputs.skip != 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install packages
+        if: steps.check.outputs.skip != 'true'
+        run: pip install -r requirements.txt
+
+      - name: Run collector
+        if: steps.check.outputs.skip != 'true'
+        run: python scripts/collect.py
+
+      - name: Commit latest data
+        if: steps.check.outputs.skip != 'true'
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add data/latest.json
+          git diff --cached --quiet || git commit -m "auto update market data"
+          git push
