@@ -1,3 +1,2 @@
-pykrx==1.0.51
 pandas==2.2.2
 requests==2.31.0
