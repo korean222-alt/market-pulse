@@ -868,14 +868,15 @@ def main() -> None:
         errors,
     )
 
+
     backtest = build_backtest(index_long, flows["KOSPI"])
 
     # 가격/지수/외인지분율은 GitHub Actions 환경에서 실패할 수 있으므로
-# 핵심 목표인 "수급 데이터"가 있으면 업데이트 성공으로 봅니다.
-update_ready = (
-    not flows.get("KOSPI", pd.DataFrame()).empty
-    and all(not flows.get(ticker, pd.DataFrame()).empty for ticker in TICKERS)
-)
+    # 핵심 목표인 "수급 데이터"가 있으면 업데이트 성공으로 봅니다.
+    update_ready = (
+        not flows.get("KOSPI", pd.DataFrame()).empty
+        and all(not flows.get(ticker, pd.DataFrame()).empty for ticker in TICKERS)
+    )
 
     level = int(div["level"])
 
