@@ -169,24 +169,45 @@ def check_fresh() -> None:
 
 
 def latest_trading_day(today: datetime, errors: list[str]) -> str:
-    """최근 10일 안에서 KOSPI OHLCV가 존재하는 마지막 거래일을 찾습니다."""
+    """
+    최근 거래일 탐색.
+    GitHub Actions 환경에서 pykrx OHLCV가 깨지는 경우가 있어
+    OHLCV보다 수급 데이터를 우선 기준으로 사용합니다.
+    """
     for offset in range(0, 10):
         d = today - timedelta(days=offset)
         ds = ymd(d)
-        df = safe_df(
-            lambda ds=ds: stock.get_market_ohlcv_by_ticker(ds, market="KOSPI"),
-            f"ohlcv_by_ticker {ds}",
+
+        flow_df = safe_df(
+            lambda ds=ds: stock.get_market_trading_value_by_date(
+                ds,
+                ds,
+                "KOSPI",
+                detail=True,
+            ),
+            f"latest trading value check {ds}",
             errors,
         )
-        if not df.empty:
+
+        if flow_df.empty:
+            flow_df = safe_df(
+                lambda ds=ds: stock.get_market_trading_value_by_date(
+                    ds,
+                    ds,
+                    "KOSPI",
+                ),
+                f"latest trading value fallback check {ds}",
+                errors,
+            )
+
+        if not flow_df.empty:
             return ds
 
     errors.append(
-        "최근 10일 내 KOSPI 거래일 데이터를 찾지 못했습니다. 오늘 날짜 기준으로 not_ready 데이터를 생성합니다."
+        "최근 10일 내 KOSPI 수급 거래일 데이터를 찾지 못했습니다. 오늘 날짜 기준으로 not_ready 데이터를 생성합니다."
     )
     return ymd(today)
-
-
+    
 def already_collected(trade_date: str) -> bool:
     """같은 거래일의 핵심 데이터가 이미 저장돼 있으면 이후 재시도 실행은 건너뜁니다."""
     if not OUT.exists():
