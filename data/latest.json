@@ -1,11 +1,11 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "status": "not_ready",
   "updateReady": false,
-  "generatedAt": "2026-05-18 19:17:30 KST",
+  "generatedAt": "2026-05-18 19:29:53 KST",
   "tradeDate": "2026-05-18",
-  "source": "pykrx/KRX public data",
-  "notice": "수집 실패 항목은 가짜값 없이 null 또는 수집 불가로 표시합니다. 투자 권유가 아닙니다.",
+  "source": "KRX Data Marketplace direct JSON",
+  "notice": "KRX 직접수집 버전입니다. 실패 항목은 가짜값 없이 null 또는 수집 불가로 표시합니다. 투자 권유가 아닙니다.",
   "alert": {
     "level": 1,
     "label": "보통",
@@ -89,24 +89,63 @@
   "credit": {
     "available": false,
     "source": null,
-    "message": "pykrx에서 신용잔고 수집 함수를 찾지 못했거나 컬럼 구조가 맞지 않습니다. 가짜값은 넣지 않았습니다.",
-    "tried": [],
+    "message": "이번 KRX 직접수집 버전에서는 신용잔고를 아직 연결하지 않았습니다. 가짜값은 넣지 않았습니다.",
     "history": []
   },
   "backtest": {
     "available": false,
     "thresholds": [],
     "cases": [],
-    "note": "백테스트 데이터 부족"
+    "note": "이번 KRX 직접수집 버전에서는 백테스트를 아직 연결하지 않았습니다."
+  },
+  "debug": {
+    "kospiHistoryCount": 0,
+    "tickerHistoryCount": {
+      "005930": 0,
+      "000660": 0
+    },
+    "unitNote": "수급 금액은 KRX 원자료 단위를 억원으로 자동 추정했습니다."
   },
   "errors": [
-    "최근 10일 내 KOSPI 수급 거래일 데이터를 찾지 못했습니다. 오늘 날짜 기준으로 not_ready 데이터를 생성합니다.",
-    "market ohlcv by ticker: KeyError: \"None of [Index(['시가', '고가', '저가', '종가'], dtype='object')] are in the [columns]\"",
-    "KOSPI index ohlcv: KeyError: '지수명'",
-    "foreign ratio recent 005930: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
-    "foreign ratio long 005930: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
-    "foreign ratio recent 000660: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
-    "foreign ratio long 000660: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
-    "KOSPI index long: KeyError: '지수명'"
+    "market flow 20260510 dbms/MDC/STAT/standard/MDCSTAT02301: HTTPError: 400 Client Error: Bad Request for url: https://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd",
+    "stock flow 005930 20260510: no parsable KRX output",
+    "stock flow 000660 20260510: no parsable KRX output",
+    "market flow 20260511 dbms/MDC/STAT/standard/MDCSTAT02201: HTTPError: 400 Client Error: Bad Request for url: https://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd",
+    "market flow 20260511 dbms/MDC/STAT/standard/MDCSTAT02301: HTTPError: 400 Client Error: Bad Request for url: https://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd",
+    "stock flow 005930 20260511: no parsable KRX output",
+    "stock flow 000660 20260511: no parsable KRX output",
+    "market flow 20260512 dbms/MDC/STAT/standard/MDCSTAT02201: HTTPError: 400 Client Error: Bad Request for url: https://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd",
+    "market flow 20260512 dbms/MDC/STAT/standard/MDCSTAT02301: HTTPError: 400 Client Error: Bad Request for url: https://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd",
+    "stock flow 005930 20260512: no parsable KRX output",
+    "stock flow 000660 20260512: no parsable KRX output",
+    "market flow 20260513 dbms/MDC/STAT/standard/MDCSTAT02201: HTTPError: 400 Client Error: Bad Request for url: https://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd",
+    "market flow 20260513 dbms/MDC/STAT/standard/MDCSTAT02301: HTTPError: 400 Client Error: Bad Request for url: https://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd",
+    "stock flow 005930 20260513: no parsable KRX output",
+    "stock flow 000660 20260513: no parsable KRX output",
+    "market flow 20260514 dbms/MDC/STAT/standard/MDCSTAT02201: HTTPError: 400 Client Error: Bad Request for url: https://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd",
+    "market flow 20260514 dbms/MDC/STAT/standard/MDCSTAT02301: HTTPError: 400 Client Error: Bad Request for url: https://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd",
+    "stock flow 005930 20260514: no parsable KRX output",
+    "stock flow 000660 20260514: no parsable KRX output",
+    "market flow 20260515 dbms/MDC/STAT/standard/MDCSTAT02201: HTTPError: 400 Client Error: Bad Request for url: https://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd",
+    "market flow 20260515 dbms/MDC/STAT/standard/MDCSTAT02301: HTTPError: 400 Client Error: Bad Request for url: https://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd",
+    "stock flow 005930 20260515: no parsable KRX output",
+    "stock flow 000660 20260515: no parsable KRX output",
+    "market flow 20260516 dbms/MDC/STAT/standard/MDCSTAT02201: HTTPError: 400 Client Error: Bad Request for url: https://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd",
+    "market flow 20260516 dbms/MDC/STAT/standard/MDCSTAT02301: HTTPError: 400 Client Error: Bad Request for url: https://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd",
+    "stock flow 005930 20260516: no parsable KRX output",
+    "stock flow 000660 20260516: no parsable KRX output",
+    "market flow 20260517 dbms/MDC/STAT/standard/MDCSTAT02201: HTTPError: 400 Client Error: Bad Request for url: https://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd",
+    "market flow 20260517 dbms/MDC/STAT/standard/MDCSTAT02301: HTTPError: 400 Client Error: Bad Request for url: https://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd",
+    "stock flow 005930 20260517: no parsable KRX output",
+    "stock flow 000660 20260517: no parsable KRX output",
+    "market flow 20260518 dbms/MDC/STAT/standard/MDCSTAT02201: HTTPError: 400 Client Error: Bad Request for url: https://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd",
+    "market flow 20260518 dbms/MDC/STAT/standard/MDCSTAT02301: HTTPError: 400 Client Error: Bad Request for url: https://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd",
+    "stock flow 005930 20260518: no parsable KRX output",
+    "stock flow 000660 20260518: no parsable KRX output",
+    "price table: HTTPError: 400 Client Error: Bad Request for url: https://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd",
+    "foreign ratio 005930: HTTPError: 400 Client Error: Bad Request for url: https://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd",
+    "foreign ratio 005930: HTTPError: 400 Client Error: Bad Request for url: https://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd",
+    "foreign ratio 000660: HTTPError: 400 Client Error: Bad Request for url: https://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd",
+    "foreign ratio 000660: HTTPError: 400 Client Error: Bad Request for url: https://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd"
   ]
 }
