@@ -23,19 +23,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Check existing data
-        id: check
-        run: python scripts/collect.py --check-fresh
-
       - name: Set up Python
-        if: steps.check.outputs.skip != 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
       - name: Install packages
-        if: steps.check.outputs.skip != 'true'
         run: pip install -r requirements.txt
+
+      - name: Check existing data
+        id: check
+        run: python scripts/collect.py --check-fresh
 
       - name: Run collector
         if: steps.check.outputs.skip != 'true'
