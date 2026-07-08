@@ -2,7 +2,7 @@
   "schemaVersion": 4,
   "status": "not_ready",
   "updateReady": false,
-  "generatedAt": "2026-07-08 19:52:17 KST",
+  "generatedAt": "2026-07-08 20:48:57 KST",
   "tradeDate": "2026-07-08",
   "source": "KRX Data Marketplace direct JSON",
   "notice": "KRX 직접수집 버전입니다. 실패 항목은 가짜값 없이 null 또는 수집 불가로 표시합니다. 투자 권유가 아닙니다.",
